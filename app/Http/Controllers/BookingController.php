@@ -20,15 +20,9 @@ class BookingController extends Controller
      */
     public function create(): View
     {
-        // === BAGIAN INI MEMPERBAIKI ERROR ===
-        // 1. Mengambil semua data Layanan dari database.
-        // 2. Mengelompokkannya berdasarkan kolom 'category'.
         $services = Layanan::all()->groupBy('category');
-
-        // 3. Mengambil semua tipe kendaraan.
         $tipes = Tipe::all();
 
-        // 4. Mengirim variabel $servicesByCategory dan $tipes ke view.
         return view('pages.booking', [
             'servicesByCategory' => $services,
             'tipes' => $tipes,
@@ -42,15 +36,16 @@ class BookingController extends Controller
     {
         // Validasi dasar yang berlaku untuk semua
         $validationRules = [
-            'services'      => 'required|array|min:1',
-            'services.*'    => 'exists:layanans,id',
-            'booking_date'  => 'required|date|after_or_equal:today',
-            'booking_time'  => 'required|string',
-            'tipe_id'       => 'required|exists:tipes,id',
-            'nomor_polisi'  => 'required|string|max:10',
-            'tahun'         => 'required|digits:4',
+            'services'       => 'required|array|min:1',
+            'services.*'     => 'exists:layanans,id',
+            'booking_date'   => 'required|date|after_or_equal:today',
+            'booking_time'   => 'required|string',
+            'tipe_id'        => 'required|exists:tipes,id',
+            'model'          => 'required|string|max:255', // DITAMBAHKAN: Validasi untuk model
+            'nomor_polisi'   => 'required|string|max:15',
+            'tahun'          => 'required|digits:4',
             'payment_method' => 'required|string',
-            'payment_proof' => 'nullable|image|max:2048',
+            'payment_proof'  => 'nullable|image|max:2048',
         ];
 
         // Tambahkan validasi nama & telepon HANYA jika pengguna adalah guest
@@ -71,23 +66,23 @@ class BookingController extends Controller
                 ['phone' => $validated['phone']],
                 [
                     'name' => $validated['name'],
-                    'email' => $validated['phone'] . '@bengkel.com',
+                    'email' => $validated['phone'] . '@bengkel.com', // Email unik sementara
                     'password' => Hash::make(Str::random(10)),
                 ]
             );
-            if (!$user->wasRecentlyCreated && !$user->hasRole('pelanggan')) {
-                $user->assignRole('pelanggan');
-            } else if ($user->wasRecentlyCreated) {
+            // Tetapkan role 'pelanggan' jika user baru dibuat atau belum punya role
+            if (!$user->hasRole('pelanggan')) {
                 $user->assignRole('pelanggan');
             }
         }
 
         // Cari atau buat Kendaraan baru
         $kendaraan = Kendaraan::firstOrCreate(
-            ['nomor_polisi' => Str::upper($validated['nomor_polisi'])],
+            ['plate_number' => Str::upper($validated['nomor_polisi'])],
             [
                 'user_id' => $user->id,
                 'tipe_id' => $validated['tipe_id'],
+                'model'   => $validated['model'], // DITAMBAHKAN: Menyimpan model kendaraan
                 'tahun'   => $validated['tahun'],
             ]
         );

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('tipe_id')->constrained('tipes')->onDelete('restrict');
             $table->string('model'); // e.g., Avanza, Civic
             $table->string('plate_number', 15)->unique();
-            $table->year('year')->nullable();
+            $table->year('tahun')->nullable();
             $table->timestamps();
         });
     }

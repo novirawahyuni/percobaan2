@@ -17,8 +17,18 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('kendaraan_id')->constrained('kendaraans')->onDelete('cascade');
             $table->date('booking_date');
-            $table->time('booking_time');
-            $table->enum('status', ['pending', 'confirmed', 'in_progress', 'completed', 'cancelled'])->default('pending');
+            $table->string('booking_time'); // Menggunakan string untuk fleksibilitas
+
+            // === BAGIAN YANG DIPERBAIKI ===
+            // Menyesuaikan nilai ENUM agar cocok dengan yang dikirim oleh Controller
+            $table->enum('status', [
+                'menunggu_konfirmasi',
+                'dikonfirmasi',
+                'sedang_dikerjakan',
+                'selesai',
+                'dibatalkan'
+            ])->default('menunggu_konfirmasi');
+
             $table->text('notes')->nullable();
             $table->timestamps();
         });

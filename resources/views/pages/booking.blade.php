@@ -1,11 +1,31 @@
-{{-- Menggunakan layout utama --}}
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
 
-@section('title', 'Booking Online - Bengkel Berkat Yakin')
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Online - Bengkel Berkat Yakin</title>
 
-@push('styles')
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom CSS & Konfigurasi Tailwind -->
     <style>
-        /* CSS krusial untuk menyembunyikan step yang tidak aktif */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+            /* slate-50 */
+        }
+
+        /* CSS KRUSIAL UNTUK MULTI-STEP FORM */
         .form-step {
             display: none;
         }
@@ -18,15 +38,66 @@
             transition: all 0.3s ease;
         }
     </style>
-@endpush
+</head>
 
-@section('content')
+<body class="text-slate-800">
+
+    <!-- HEADER / NAVBAR -->
+    <header class="bg-white/80 backdrop-blur-sm shadow-md sticky top-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0">
+                    <a href="{{ route('home') }}" class="text-2xl font-bold text-blue-600">Bengkel Berkat Yakin</a>
+                </div>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="{{ route('home') }}"
+                        class="text-slate-600 hover:text-blue-600 font-medium transition-colors">Beranda</a>
+                    <a href="{{ route('layanan') }}"
+                        class="text-slate-600 hover:text-blue-600 font-medium transition-colors">Layanan</a>
+                    <a href="{{ route('tentang-kami') }}"
+                        class="text-slate-600 hover:text-blue-600 font-medium transition-colors">Tentang Kami</a>
+                    <a href="{{ route('kontak') }}"
+                        class="text-slate-600 hover:text-blue-600 font-medium transition-colors">Kontak</a>
+                </nav>
+                <div class="flex items-center">
+                    <a href="{{ route('booking.create') }}"
+                        class="hidden sm:inline-block bg-blue-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-sm hover:shadow-lg">Booking
+                        Online</a>
+                    <button id="hamburger-button"
+                        class="md:hidden ml-4 p-2 rounded-md text-slate-600 hover:bg-slate-100 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="{{ route('home') }}"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-blue-600 hover:bg-slate-50">Beranda</a>
+                <a href="{{ route('layanan') }}"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-blue-600 hover:bg-slate-50">Layanan</a>
+                <a href="{{ route('tentang-kami') }}"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-blue-600 hover:bg-slate-50">Tentang
+                    Kami</a>
+                <a href="{{ route('kontak') }}"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-blue-600 hover:bg-slate-50">Kontak</a>
+                <a href="{{ route('booking.create') }}"
+                    class="block w-full text-left bg-blue-600 text-white font-semibold mt-2 px-4 py-3 rounded-lg hover:bg-blue-700 transition-all">Booking
+                    Online</a>
+            </div>
+        </div>
+    </header>
+
     <main>
         <!-- Page Header -->
         <section class="bg-slate-700 py-16 text-white text-center">
             <div class="container mx-auto px-4">
                 <h1 class="text-4xl font-bold">Booking Servis Online</h1>
-                <p class="mt-2 text-lg text-slate-300">Amankan jadwal servis Anda hanya dalam beberapa langkah mudah.</p>
+                <p class="mt-2 text-lg text-slate-300">Amankan jadwal servis Anda hanya dalam beberapa langkah mudah.
+                </p>
             </div>
         </section>
 
@@ -67,9 +138,8 @@
 
                     <form id="booking-form" action="{{ route('booking.store') }}" method="POST"
                         enctype="multipart/form-data">
-                        @csrf {{-- Token keamanan Laravel --}}
-
-                        <!-- Step 1: Layanan (Dinamis) -->
+                        @csrf
+                        <!-- Step 1: Layanan -->
                         <div id="form-step-1" class="form-step active">
                             <h3 class="text-2xl font-bold mb-6">Pilih layanan yang Anda butuhkan</h3>
                             @if ($errors->any())
@@ -83,8 +153,8 @@
                             @endif
                             @forelse($servicesByCategory as $category => $services)
                                 <div class="mb-6">
-                                    <h4 class="text-lg font-semibold mb-3 border-b pb-2 text-slate-800">{{ $category }}
-                                    </h4>
+                                    <h4 class="text-lg font-semibold mb-3 border-b pb-2 text-slate-800">
+                                        {{ $category }}</h4>
                                     <div class="grid sm:grid-cols-2 gap-4">
                                         @foreach ($services as $service)
                                             <label
@@ -112,7 +182,8 @@
                                         class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                                 </div>
                                 <div>
-                                    <label for="booking_time" class="block text-sm font-medium text-slate-700">Waktu</label>
+                                    <label for="booking_time"
+                                        class="block text-sm font-medium text-slate-700">Waktu</label>
                                     <select id="booking_time" name="booking_time" required
                                         class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                                         <option>08:00</option>
@@ -139,8 +210,9 @@
                                     <div><label for="name" class="block text-sm font-medium text-slate-700">Nama
                                             Lengkap</label><input type="text" name="name" id="name" required
                                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md"></div>
-                                    <div><label for="phone" class="block text-sm font-medium text-slate-700">Nomor Telepon
-                                            (WA)</label><input type="tel" name="phone" id="phone" required
+                                    <div><label for="phone" class="block text-sm font-medium text-slate-700">Nomor
+                                            Telepon (WA)</label><input type="tel" name="phone" id="phone"
+                                            required
                                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md"></div>
                                 @endguest
                                 <div>
@@ -154,9 +226,17 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <div>
+                                    <label for="model" class="block text-sm font-medium text-slate-700">Model
+                                        Kendaraan</label>
+                                    <input type="text" name="model" id="model"
+                                        placeholder="Contoh: Innova Reborn" required
+                                        class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md">
+                                </div>
                                 <div><label for="tahun"
-                                        class="block text-sm font-medium text-slate-700">Tahun</label><input type="number"
-                                        name="tahun" id="tahun" placeholder="Contoh: 2020" required
+                                        class="block text-sm font-medium text-slate-700">Tahun</label><input
+                                        type="number" name="tahun" id="tahun" placeholder="Contoh: 2020"
+                                        required
                                         class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md"></div>
                                 <div class="sm:col-span-2"><label for="nomor_polisi"
                                         class="block text-sm font-medium text-slate-700">Nomor Polisi</label><input
@@ -212,8 +292,8 @@
                                     <button type="button" data-payment="Mandiri" data-account="0987654321"
                                         data-name="Bengkel Berkat Yakin"
                                         class="payment-option p-2 border rounded-lg hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"><img
-                                            src="https://placehold.co/100x40/FFFFFF/003366?text=Mandiri" alt="Mandiri"
-                                            class="h-8 w-full object-contain rounded"></button>
+                                            src="https://placehold.co/100x40/FFFFFF/003366?text=Mandiri"
+                                            alt="Mandiri" class="h-8 w-full object-contain rounded"></button>
                                     <button type="button" data-payment="GoPay" data-account="082172591419"
                                         data-name="Bengkel Berkat Yakin"
                                         class="payment-option p-2 border rounded-lg hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"><img
@@ -223,11 +303,12 @@
                                 <div id="payment-details"
                                     class="mt-4 hidden bg-blue-50 p-4 rounded-lg border border-blue-200">
                                     <p class="font-semibold text-slate-800">Silakan transfer ke rekening berikut:</p>
-                                    <p class="mt-1"><strong id="payment-detail-method" class="text-slate-700"></strong>
-                                    </p>
+                                    <p class="mt-1"><strong id="payment-detail-method"
+                                            class="text-slate-700"></strong></p>
                                     <p class="text-lg">Nomor: <strong id="payment-detail-account"
                                             class="text-blue-600 tracking-wider"></strong></p>
-                                    <p>Atas Nama: <strong id="payment-detail-name" class="text-slate-700"></strong></p>
+                                    <p>Atas Nama: <strong id="payment-detail-name" class="text-slate-700"></strong>
+                                    </p>
                                 </div>
                                 <div id="upload-section" class="mt-4 hidden">
                                     <label for="payment_proof" class="block text-sm font-medium text-slate-700">Unggah
@@ -237,8 +318,8 @@
                                     <p class="text-xs text-slate-500 mt-1">File: JPG, PNG (Maks. 2MB).</p>
                                 </div>
                             </div>
-                            <p class="mt-8 text-sm text-slate-500">Pastikan semua data sudah benar. Kami akan mengirimkan
-                                notifikasi konfirmasi ke nomor telepon Anda.</p>
+                            <p class="mt-8 text-sm text-slate-500">Pastikan semua data sudah benar. Kami akan
+                                mengirimkan notifikasi konfirmasi ke nomor telepon Anda.</p>
                         </div>
 
                         <!-- Tombol Navigasi -->
@@ -257,12 +338,64 @@
             </div>
         </section>
     </main>
-@endsection
 
-@push('scripts')
+    <!-- FOOTER -->
+    <footer class="bg-slate-800 text-slate-300 pt-16 pb-8">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4">Bengkel Berkat Yakin</h3>
+                    <p class="text-slate-400">Solusi perawatan mobil modern, profesional, dan terpercaya.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4">Navigasi</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{{ route('home') }}" class="hover:text-white transition-colors">Beranda</a></li>
+                        <li><a href="{{ route('layanan') }}" class="hover:text-white transition-colors">Layanan</a>
+                        </li>
+                        <li><a href="{{ route('tentang-kami') }}" class="hover:text-white transition-colors">Tentang
+                                Kami</a></li>
+                        <li><a href="{{ route('kontak') }}" class="hover:text-white transition-colors">Kontak</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4">Hubungi Kami</h3>
+                    <ul class="space-y-3 text-slate-400">
+                        <li class="flex items-start"><i data-lucide="map-pin"
+                                class="w-5 h-5 mr-3 mt-1 flex-shrink-0 text-blue-400"></i>Jl. Prof. M. Yamin,
+                            Bangkinang, Riau</li>
+                        <li class="flex items-center"><i data-lucide="phone"
+                                class="w-5 h-5 mr-3 text-blue-400"></i>+62 821-7259-1419</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4">Jam Operasional</h3>
+                    <ul class="space-y-2 text-slate-400">
+                        <li>Senin - Rabu: 08:00 - 17:00</li>
+                        <li>Kamis - Jumat: Tutup</li>
+                        <li>Sabtu - Minggu: 08:00 - 17:00</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-700 mt-8 pt-8 text-center text-slate-500">
+                <p>&copy; {{ date('Y') }} Bengkel Berkat Yakin. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // --- 1. PENGAMBILAN ELEMEN ---
+            // --- Inisialisasi Ikon & Menu Mobile ---
+            lucide.createIcons();
+            const hamburgerButton = document.getElementById('hamburger-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            hamburgerButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // --- 1. PENGAMBILAN ELEMEN FORM ---
             const prevBtn = document.getElementById('prev-btn');
             const nextBtn = document.getElementById('next-btn');
             const submitBtn = document.getElementById('submit-btn');
@@ -301,31 +434,28 @@
             };
 
             const updateSummary = () => {
-                // Mengisi ringkasan layanan
                 const selectedServices = Array.from(document.querySelectorAll(
                         'input[name="services[]"]:checked')).map(cb => cb.nextElementSibling.textContent.trim())
                     .join(', ');
                 document.getElementById('summary-service').textContent = selectedServices || 'N/A';
 
-                // Mengisi ringkasan jadwal
                 const date = document.getElementById('booking_date').value;
                 const time = document.getElementById('booking_time').value;
                 document.getElementById('summary-schedule').textContent = `${date}, Pukul ${time}`;
 
-                // Mengisi ringkasan nama (handle guest & user login)
                 const nameInput = document.getElementById('name');
                 document.getElementById('summary-name').textContent = nameInput ? nameInput.value :
                     '{{ Auth::user()->name ?? 'Data Pengguna' }}';
 
-                // Mengisi ringkasan mobil
                 const tipeSelect = document.getElementById('tipe_id');
                 const selectedTipeText = tipeSelect.options[tipeSelect.selectedIndex].text;
+                // Menambahkan Model Kendaraan ke Ringkasan
+                const model = document.getElementById('model').value;
                 document.getElementById('summary-car').textContent =
-                    `${selectedTipeText} (${document.getElementById('tahun').value})`;
+                    `${selectedTipeText} ${model} (${document.getElementById('tahun').value})`;
                 document.getElementById('summary-plate').textContent = document.getElementById('nomor_polisi')
                     .value.toUpperCase();
 
-                // Mengisi ringkasan pembayaran
                 const paymentMethodRadio = document.querySelector('input[name="payment_method"]:checked');
                 let paymentSummaryText = 'N/A';
                 if (paymentMethodRadio) {
@@ -340,7 +470,6 @@
             };
 
             // --- 3. EVENT LISTENERS ---
-
             nextBtn.addEventListener('click', () => {
                 if (currentStep < formSteps.length) {
                     currentStep++;
@@ -358,7 +487,6 @@
                 }
             });
 
-            // Listener untuk pilihan metode pembayaran
             const paymentRadios = document.querySelectorAll('input[name="payment_method"]');
             const transferOptions = document.getElementById('transfer-options');
             const paymentDetails = document.getElementById('payment-details');
@@ -375,12 +503,10 @@
                         paymentOptions.forEach(opt => opt.classList.remove('ring-2',
                             'ring-blue-500'));
                     }
-                    // Update ringkasan jika sedang berada di step 4
                     if (currentStep === formSteps.length) updateSummary();
                 });
             });
 
-            // Listener untuk tombol pilihan bank/e-wallet
             paymentOptions.forEach(option => {
                 option.addEventListener('click', () => {
                     paymentOptions.forEach(opt => opt.classList.remove('ring-2', 'ring-blue-500'));
@@ -396,13 +522,15 @@
                     paymentDetails.classList.remove('hidden');
                     uploadSection.classList.remove('hidden');
 
-                    // Update ringkasan jika sedang berada di step 4
                     if (currentStep === formSteps.length) updateSummary();
                 });
             });
 
             // --- 4. INISIALISASI ---
-            updateFormSteps(); // Panggil sekali di awal untuk setup tampilan
+            updateFormSteps();
         });
     </script>
-@endpush
+
+</body>
+
+</html>

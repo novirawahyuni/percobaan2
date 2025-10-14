@@ -4,8 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Booking;
 use App\Models\Kendaraan;
-use App\Models\Layanan;
-use App\Models\Produk;
 use App\Models\Tipe;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -18,63 +16,58 @@ class BookingSeeder extends Seeder
      */
     public function run(): void
     {
-        // Ambil data user pelanggan menggunakan metode dari Spatie/Filament Shield
-        // INI BAGIAN YANG DIPERBAIKI:
+        // Ambil user pelanggan
         $pelanggan = User::role('pelanggan')->first();
-
-        // Jika tidak ada pelanggan, hentikan seeder untuk menghindari error
         if (!$pelanggan) {
-            $this->command->info('Tidak ditemukan user dengan role pelanggan. BookingSeeder dilewati.');
+            $this->command->error('Tidak ada user dengan role "pelanggan". Jalankan UserSeeder terlebih dahulu.');
             return;
         }
 
-        $tipeToyota = Tipe::where('name', 'Toyota')->first();
+        // Ambil tipe kendaraan pertama
+        $tipe = Tipe::first();
+        if (!$tipe) {
+            $this->command->error('Tidak ada data di tabel "tipes". Jalankan TipeSeeder terlebih dahulu.');
+            return;
+        }
 
-        // Buat kendaraan untuk pelanggan tersebut
-        $kendaraan = Kendaraan::create([
-            'user_id' => $pelanggan->id,
-            'tipe_id' => $tipeToyota->id,
-            'model' => 'Avanza Veloz',
-            'plate_number' => 'B 1234 XYZ',
-            'year' => '2022',
-        ]);
+        // Buat atau ambil kendaraan untuk pelanggan
+        $kendaraan = Kendaraan::firstOrCreate(
+            ['plate_number' => 'BM 1234 ABC'],
+            [
+                'user_id' => $pelanggan->id,
+                'tipe_id' => $tipe->id,
+                'model'   => 'Innova Reborn',
+                'tahun'   => 2022,
+            ]
+        );
 
-        // Ambil data layanan dan produk
-        $layananTuneUp = Layanan::where('name', 'Tune Up Lengkap')->first();
-        $layananGantiOli = Layanan::where('name', 'Ganti Oli Mesin')->first();
-        $produkOli = Produk::where('sku', 'SH-HX7-4L')->first();
-        $produkFilter = Produk::where('sku', 'FO-AVZ-01')->first();
+        // Ambil beberapa layanan secara acak
+        $layananIds = \App\Models\Layanan::inRandomOrder()->limit(3)->pluck('id');
 
-        // Buat booking sampel
-        $booking = Booking::create([
+        // Buat booking pertama
+        $booking1 = Booking::create([
             'booking_code' => 'BK-' . strtoupper(Str::random(8)),
-            'user_id' => $pelanggan->id,
+            'user_id'      => $pelanggan->id,
             'kendaraan_id' => $kendaraan->id,
-            'booking_date' => now()->addDays(3)->toDateString(),
+            'booking_date' => now()->addDays(5),
             'booking_time' => '10:00:00',
-            'status' => 'confirmed',
-            'notes' => 'Mohon dicek juga bagian AC kurang dingin.',
+            // === BAGIAN YANG DIPERBAIKI ===
+            'status'       => 'dikonfirmasi', // Menggunakan nilai yang benar (bukan 'confirmed')
+            'notes'        => 'Mohon dicek juga bagian AC kurang dingin.',
         ]);
+        $booking1->layanans()->attach($layananIds->slice(0, 2));
 
-        // Hubungkan booking dengan layanan
-        $booking->layanans()->attach([$layananTuneUp->id, $layananGantiOli->id]);
 
-        // Hubungkan booking dengan produk
-        $booking->produks()->attach([
-            $produkOli->id => ['quantity' => 1, 'price_at_time' => $produkOli->price],
-            $produkFilter->id => ['quantity' => 1, 'price_at_time' => $produkFilter->price],
+        // Buat booking kedua
+        $booking2 = Booking::create([
+            'booking_code' => 'BK-' . strtoupper(Str::random(8)),
+            'user_id'      => $pelanggan->id,
+            'kendaraan_id' => $kendaraan->id,
+            'booking_date' => now()->subDays(10),
+            'booking_time' => '14:00:00',
+            // === BAGIAN YANG DIPERBAIKI ===
+            'status'       => 'selesai', // Menggunakan nilai yang benar (bukan 'completed')
         ]);
-
-        // Hitung total biaya
-        $totalLayanan = $booking->layanans()->sum('price');
-        $totalProduk = $booking->produks()->sum('price_at_time');
-        $totalAmount = $totalLayanan + $totalProduk;
-
-        // Buat data pembayaran untuk booking ini
-        $booking->pembayaran()->create([
-            'method' => 'Bayar di Tempat',
-            'amount' => $totalAmount,
-            'status' => 'unpaid',
-        ]);
+        $booking2->layanans()->attach($layananIds->last());
     }
 }
