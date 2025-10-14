@@ -30,3 +30,7 @@ Route::post('/booking', [BookingController::class, 'store'])->name('booking.stor
 
 // Rute untuk halaman sukses setelah booking
 Route::get('/booking/sukses', [BookingController::class, 'success'])->name('booking.success');
+
+// Rute untuk halaman riwayat booking
+Route::get('/history', [App\Http\Controllers\HistoryController::class, 'index'])->name('history');
+Route::post('/history/check', [App\Http\Controllers\HistoryController::class, 'check'])->name('history.check');
