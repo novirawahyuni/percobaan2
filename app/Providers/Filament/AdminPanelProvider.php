@@ -59,5 +59,9 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+            // Tambahkan baris ini untuk memproteksi panel
+            // ->canSee(function () {
+            //     return auth()->user()->can('access-filament-panel');
+            // });
     }
 }

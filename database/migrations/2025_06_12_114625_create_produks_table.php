@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('produks', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_produk');
-            $table->string('nama_produk');
-            $table->string('harga_produk');
+            $table->string('name');
+            $table->string('sku')->unique()->comment('Stock Keeping Unit');
+            $table->text('description')->nullable();
+            $table->decimal('price', 10, 2);
+            $table->integer('stock')->default(0);
             $table->timestamps();
         });
     }

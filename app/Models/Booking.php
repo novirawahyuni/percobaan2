@@ -4,32 +4,65 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
-use App\produk;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Booking extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'booking_code',
+        'user_id',
+        'kendaraan_id',
+        'booking_date',
+        'booking_time',
+        'status',
+        'notes',
+    ];
 
-    public function user()
+    /**
+     * Relasi ke User (pelanggan).
+     */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function produk()
-    {
-        return $this->belongsTo(Produk::class);
-    }
-
-    public function kendaraan()
+    /**
+     * Relasi ke Kendaraan.
+     */
+    public function kendaraan(): BelongsTo
     {
         return $this->belongsTo(Kendaraan::class);
     }
 
-    public function layanan()
+    /**
+     * Relasi ke Pembayaran.
+     */
+    public function pembayaran(): HasOne
     {
-        return $this->belongsTo(Layanan::class);
+        return $this->hasOne(Pembayaran::class);
+    }
+
+    /**
+     * Relasi Many-to-Many ke Layanan.
+     * INI BAGIAN PENTING YANG DIPERBAIKI: Menggunakan belongsToMany
+     */
+    public function layanans(): BelongsToMany
+    {
+        return $this->belongsToMany(Layanan::class, 'booking_layanan');
+    }
+
+    /**
+     * Relasi Many-to-Many ke Produk.
+     * INI BAGIAN PENTING YANG DIPERBAIKI: Menggunakan belongsToMany
+     */
+    public function produks(): BelongsToMany
+    {
+        return $this->belongsToMany(Produk::class, 'booking_produk')
+            ->withPivot('quantity', 'price_at_time') // Mengambil data tambahan dari tabel pivot
+            ->withTimestamps();
     }
 }

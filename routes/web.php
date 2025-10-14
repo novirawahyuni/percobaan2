@@ -1,10 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PublicBookingController;
-use App\Http\Controllers\HistoryController;
-use App\Http\Controllers\PelayananController;
-use App\Http\Controllers\TentangKamiController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\HomePageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,24 +14,19 @@ use App\Http\Controllers\TentangKamiController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+// Rute untuk halaman utama (Beranda)
+Route::get('/', [HomePageController::class, 'index'])->name('home');
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+// Rute untuk halaman-halaman lainnya
+Route::get('/layanan', [HomePageController::class, 'layanan'])->name('layanan');
+Route::get('/tentang-kami', [HomePageController::class, 'tentangKami'])->name('tentang-kami');
+Route::get('/kontak', [HomePageController::class, 'kontak'])->name('kontak');
 
+// Ini akan memanggil fungsi 'create' di BookingController, yang akan mengirim data layanan
+Route::get('/booking', [BookingController::class, 'create'])->name('booking.create');
 
-// Booking Now create
-Route::get('/booking', [PublicBookingController::class, 'create'])->name('booking.create');
+// Rute untuk memproses data dari form booking (POST request)
+Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
 
-// Booking Input Admin
-Route::post('/booking', [PublicBookingController::class, 'store'])->name('booking.store');
-
-// Pelayanan
-Route::get('/pelayanan', [PelayananController::class, 'index'])->name('pelayanan.index');
-
-// Tentang Kami
-Route::get('/tentangkami', [TentangKamiController::class, 'index'])->name('tentangkami.index');
-
-// History
-Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
-
+// Rute untuk halaman sukses setelah booking
+Route::get('/booking/sukses', [BookingController::class, 'success'])->name('booking.success');

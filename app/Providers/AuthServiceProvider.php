@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Models\User; // <-- Import User model
+use Illuminate\Support\Facades\Gate; // <-- Import Gate facade
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -21,6 +23,11 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->registerPolicies();
+
+        // Definisikan Gate untuk akses panel admin Filament
+        Gate::define('access-filament-panel', function (User $user) {
+            return in_array($user->role, ['pemilik', 'karyawan']);
+        });
     }
 }

@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('pembayarans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('booking_id')->constrained('bookings');
-            $table->string('metode_pembayaran');
-            $table->string('bukti_pembayaran');
-            $table->string('jumlah_dibayar');
-            $table->string('tanggal');
-            $table->enum('status', ['sedang di proses','diterima']);
+            $table->foreignId('booking_id')->constrained('bookings')->onDelete('cascade');
+            $table->string('method');
+            $table->decimal('amount', 12, 2);
+            $table->enum('status', ['unpaid', 'paid', 'verified'])->default('unpaid');
+            $table->string('proof_of_payment')->nullable();
+            $table->timestamp('payment_date')->nullable();
             $table->timestamps();
         });
     }

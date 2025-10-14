@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('kendaraans', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_kendaraan');
-             $table->string('tahun_kendaraan');
-
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('tipe_id')->constrained('tipes')->onDelete('restrict');
+            $table->string('model'); // e.g., Avanza, Civic
+            $table->string('plate_number', 15)->unique();
+            $table->year('year')->nullable();
             $table->timestamps();
         });
     }
