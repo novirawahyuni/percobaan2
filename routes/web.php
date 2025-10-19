@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\HomePageController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +18,13 @@ use App\Http\Controllers\HomePageController;
 */
 // Rute untuk halaman utama (Beranda)
 Route::get('/', [HomePageController::class, 'index'])->name('home');
+
+// rute untuk halaman dashboard setelah login
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Rute untuk halaman-halaman lainnya
 Route::get('/layanan', [HomePageController::class, 'layanan'])->name('layanan');
@@ -34,3 +43,7 @@ Route::get('/booking/sukses', [BookingController::class, 'success'])->name('book
 // Rute untuk halaman riwayat booking
 Route::get('/history', [App\Http\Controllers\HistoryController::class, 'index'])->name('history');
 Route::post('/history/check', [App\Http\Controllers\HistoryController::class, 'check'])->name('history.check');
+
+// Rute untuk cek booking tanpa login
+Route::get('/cek-booking', [App\Http\Controllers\BookingCheckController::class, 'index'])->name('booking.check.index');
+Route::post('/cek-booking', [App\Http\Controllers\BookingCheckController::class, 'check'])->name('booking.check.submit');

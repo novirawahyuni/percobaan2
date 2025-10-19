@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\Kendaraan;
 use App\Models\Layanan;
+use App\Models\PaymentMethod;
 use App\Models\Tipe;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -23,9 +25,13 @@ class BookingController extends Controller
         $services = Layanan::all()->groupBy('category');
         $tipes = Tipe::all();
 
+        // AMBIL DATA PEMBAYARAN YANG AKTIF DARI DATABASE
+        $paymentMethods = PaymentMethod::where('is_active', true)->get()->groupBy('type');
+
         return view('pages.booking', [
             'servicesByCategory' => $services,
             'tipes' => $tipes,
+            'paymentMethods' => $paymentMethods, // Kirim ke view
         ]);
     }
 
@@ -101,14 +107,17 @@ class BookingController extends Controller
         $booking->layanans()->attach($validated['services']);
 
         // Redirect ke halaman sukses
-        return redirect()->route('booking.success');
+        return redirect()->route('booking.success')->with('booking_code', $booking->booking_code);
     }
-
     /**
      * Menampilkan halaman konfirmasi sukses.
      */
-    public function success(): View
+    public function success(): RedirectResponse|View
     {
+        if (!session()->has('booking_code')) {
+            return redirect()->route('booking.create');
+        }
+
         return view('pages.booking-success');
     }
 }

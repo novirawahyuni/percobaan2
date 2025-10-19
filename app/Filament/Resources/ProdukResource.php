@@ -3,37 +3,39 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProdukResource\Pages;
-use App\Filament\Resources\ProdukResource\RelationManagers;
 use App\Models\Produk;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\TextInput;
-
 
 class ProdukResource extends Resource
 {
     protected static ?string $model = Produk::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    protected static ?string $navigationGroup = 'Produk';
-
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
+    protected static ?string $navigationGroup = 'Data Master';
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('kode_produk'),
-                TextInput::make('nama_produk'),
-                TextInput::make('harga_produk'),
+                Forms\Components\TextInput::make('name')
+                    ->label('Nama Produk')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('price')
+                    ->label('Harga')
+                    ->required()
+                    ->numeric()
+                    ->prefix('Rp'),
+                Forms\Components\TextInput::make('stock')
+                    ->label('Stok')
+                    ->required()
+                    ->numeric()
+                    ->default(0),
             ]);
     }
 
@@ -41,9 +43,21 @@ class ProdukResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('kode_produk'),
-                TextColumn::make('nama_produk'),
-                TextColumn::make('harga_produk'),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Nama Produk')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('price')
+                    ->label('Harga')
+                    ->money('IDR')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('stock')
+                    ->label('Stok')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

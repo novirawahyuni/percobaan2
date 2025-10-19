@@ -273,51 +273,63 @@
                                             class="h-5 w-5 text-blue-600 border-slate-300 focus:ring-blue-500" checked>
                                         <span class="ml-3 text-slate-700 font-semibold">Bayar di Tempat</span>
                                     </label>
-                                    <label
-                                        class="flex items-center p-4 border border-slate-200 rounded-lg hover:bg-blue-50 cursor-pointer has-[:checked]:bg-blue-50 has-[:checked]:border-blue-500 transition-all">
-                                        <input type="radio" name="payment_method" value="Transfer"
-                                            class="h-5 w-5 text-blue-600 border-slate-300 focus:ring-blue-500">
-                                        <span class="ml-3 text-slate-700 font-semibold">Transfer Bank / E-Wallet</span>
-                                    </label>
+                                    @if (isset($paymentMethods) && !$paymentMethods->isEmpty())
+                                        <label
+                                            class="flex items-center p-4 border border-slate-200 rounded-lg hover:bg-blue-50 cursor-pointer has-[:checked]:bg-blue-50 has-[:checked]:border-blue-500 transition-all">
+                                            <input type="radio" name="payment_method" value="Transfer"
+                                                class="h-5 w-5 text-blue-600 border-slate-300 focus:ring-blue-500">
+                                            <span class="ml-3 text-slate-700 font-semibold">Transfer Bank / E-Wallet /
+                                                QRIS</span>
+                                        </label>
+                                    @endif
                                 </div>
                             </div>
-                            <div id="transfer-options" class="mt-6 hidden">
-                                <h4 class="font-semibold text-slate-600 mb-3">Pilih salah satu metode transfer:</h4>
-                                <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4">
-                                    <button type="button" data-payment="BCA" data-account="1234567890"
-                                        data-name="Bengkel Berkat Yakin"
-                                        class="payment-option p-2 border rounded-lg hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"><img
-                                            src="https://placehold.co/100x40/FFFFFF/00529B?text=BCA" alt="BCA"
-                                            class="h-8 w-full object-contain rounded"></button>
-                                    <button type="button" data-payment="Mandiri" data-account="0987654321"
-                                        data-name="Bengkel Berkat Yakin"
-                                        class="payment-option p-2 border rounded-lg hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"><img
-                                            src="https://placehold.co/100x40/FFFFFF/003366?text=Mandiri"
-                                            alt="Mandiri" class="h-8 w-full object-contain rounded"></button>
-                                    <button type="button" data-payment="GoPay" data-account="082172591419"
-                                        data-name="Bengkel Berkat Yakin"
-                                        class="payment-option p-2 border rounded-lg hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"><img
-                                            src="https://placehold.co/100x40/FFFFFF/138808?text=GoPay" alt="GoPay"
-                                            class="h-8 w-full object-contain rounded"></button>
+                            @if (isset($paymentMethods) && !$paymentMethods->isEmpty())
+                                <div id="transfer-options" class="mt-6 hidden">
+                                    @foreach ($paymentMethods as $type => $methods)
+                                        <div class="mb-6">
+                                            <h4 class="font-semibold text-slate-600 mb-3">{{ $type }}</h4>
+                                            <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4">
+                                                @foreach ($methods as $method)
+                                                    <button type="button" data-payment="{{ $method->name }}"
+                                                        data-account="{{ $method->account_number }}"
+                                                        data-name="{{ $method->account_name }}"
+                                                        class="payment-option p-2 border rounded-lg hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                                                        @if ($method->logo)
+                                                            <img src="{{ asset('storage/' . $method->logo) }}"
+                                                                alt="{{ $method->name }}"
+                                                                class="h-10 w-full object-contain rounded">
+                                                        @else
+                                                            <span
+                                                                class="text-sm font-semibold">{{ $method->name }}</span>
+                                                        @endif
+                                                    </button>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+                                    <div id="payment-details"
+                                        class="mt-4 hidden bg-blue-50 p-4 rounded-lg border border-blue-200">
+                                        <p class="font-semibold text-slate-800">Silakan transfer ke rekening berikut:
+                                        </p>
+                                        <p class="mt-1"><strong id="payment-detail-method"
+                                                class="text-slate-700"></strong></p>
+                                        <p class="text-lg">Nomor: <strong id="payment-detail-account"
+                                                class="text-blue-600 tracking-wider"></strong></p>
+                                        <p>Atas Nama: <strong id="payment-detail-name"
+                                                class="text-slate-700"></strong></p>
+                                    </div>
+                                    <div id="upload-section" class="mt-4 hidden">
+                                        <label for="payment_proof"
+                                            class="block text-sm font-medium text-slate-700">Unggah Bukti Transfer
+                                            (Opsional)</label>
+                                        <input type="file" name="payment_proof" id="payment_proof"
+                                            class="mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+                                        <p class="text-xs text-slate-500 mt-1">File: JPG, PNG (Maks. 2MB).</p>
+                                    </div>
                                 </div>
-                                <div id="payment-details"
-                                    class="mt-4 hidden bg-blue-50 p-4 rounded-lg border border-blue-200">
-                                    <p class="font-semibold text-slate-800">Silakan transfer ke rekening berikut:</p>
-                                    <p class="mt-1"><strong id="payment-detail-method"
-                                            class="text-slate-700"></strong></p>
-                                    <p class="text-lg">Nomor: <strong id="payment-detail-account"
-                                            class="text-blue-600 tracking-wider"></strong></p>
-                                    <p>Atas Nama: <strong id="payment-detail-name" class="text-slate-700"></strong>
-                                    </p>
-                                </div>
-                                <div id="upload-section" class="mt-4 hidden">
-                                    <label for="payment_proof" class="block text-sm font-medium text-slate-700">Unggah
-                                        Bukti Transfer (Opsional)</label>
-                                    <input type="file" name="payment_proof" id="payment_proof"
-                                        class="mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
-                                    <p class="text-xs text-slate-500 mt-1">File: JPG, PNG (Maks. 2MB).</p>
-                                </div>
-                            </div>
+                            @endif
                             <p class="mt-8 text-sm text-slate-500">Pastikan semua data sudah benar. Kami akan
                                 mengirimkan notifikasi konfirmasi ke nomor telepon Anda.</p>
                         </div>
@@ -449,7 +461,6 @@
 
                 const tipeSelect = document.getElementById('tipe_id');
                 const selectedTipeText = tipeSelect.options[tipeSelect.selectedIndex].text;
-                // Menambahkan Model Kendaraan ke Ringkasan
                 const model = document.getElementById('model').value;
                 document.getElementById('summary-car').textContent =
                     `${selectedTipeText} ${model} (${document.getElementById('tahun').value})`;
@@ -517,7 +528,7 @@
                     document.getElementById('payment-detail-account').textContent = option.dataset
                         .account;
                     document.getElementById('payment-detail-name').textContent = option.dataset
-                    .name;
+                        .name;
 
                     paymentDetails.classList.remove('hidden');
                     uploadSection.classList.remove('hidden');

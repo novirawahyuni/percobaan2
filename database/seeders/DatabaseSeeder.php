@@ -21,6 +21,9 @@ class DatabaseSeeder extends Seeder
 
             // Panggil seeder data transaksi setelahnya
             BookingSeeder::class,
+
+            // Panggil seeder metode pembayaran
+            PaymentMethodSeeder::class,
         ]);
     }
 }

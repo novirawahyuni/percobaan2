@@ -3,36 +3,43 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\KendaraanResource\Pages;
-use App\Filament\Resources\KendaraanResource\RelationManagers;
 use App\Models\Kendaraan;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\TextInput;
-
 
 class KendaraanResource extends Resource
 {
     protected static ?string $model = Kendaraan::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-truck';
+    protected static ?string $navigationGroup = 'Data Master';
+    protected static ?int $navigationSort = 3;
 
-    protected static ?string $navigationGroup = 'Kendaraan';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('nama_kendaraan'),
-                TextInput::make('tahun_kendaraan'),
-
+                Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name')
+                    ->searchable()
+                    ->required(),
+                Forms\Components\Select::make('tipe_id')
+                    ->relationship('tipe', 'name')
+                    ->required(),
+                Forms\Components\TextInput::make('plate_number')
+                    ->label('Nomor Polisi')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('model')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('tahun')
+                    ->required()
+                    ->numeric(),
             ]);
     }
 
@@ -40,27 +47,18 @@ class KendaraanResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('nama_kendaraan'),
-                TextColumn::make('tahun_kendaraan'),
+                Tables\Columns\TextColumn::make('plate_number')->label('No. Polisi')->searchable(),
+                Tables\Columns\TextColumn::make('user.name')->label('Pemilik')->searchable(),
+                Tables\Columns\TextColumn::make('tipe.name')->label('Tipe'),
+                Tables\Columns\TextColumn::make('model'),
+                Tables\Columns\TextColumn::make('tahun'),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array

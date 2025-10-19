@@ -3,37 +3,44 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\LayananResource\Pages;
-use App\Filament\Resources\LayananResource\RelationManagers;
 use App\Models\Layanan;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\TextInput;
 
 class LayananResource extends Resource
 {
     protected static ?string $model = Layanan::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    protected static ?string $navigationGroup = 'Layanan';
+    protected static ?string $navigationIcon = 'heroicon-o-wrench-screwdriver';
+    protected static ?string $navigationGroup = 'Data Master';
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('nama_layanan'),
-                TextInput::make('estimasi_layanan'),
-                TextInput::make('harga_layanan'),
-                TextInput::make('deskripsi_layanan'),
-
+                Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\Select::make('category')
+                    ->options([
+                        'Perawatan Rutin' => 'Perawatan Rutin',
+                        'Mesin & Performa' => 'Mesin & Performa',
+                        'Kaki-kaki & Pengereman' => 'Kaki-kaki & Pengereman',
+                        'Lainnya' => 'Lainnya',
+                    ])
+                    ->required(),
+                Forms\Components\TextInput::make('price')
+                    ->label('Harga')
+                    ->required()
+                    ->numeric()
+                    ->prefix('Rp'),
+                Forms\Components\Textarea::make('description')
+                    ->label('Deskripsi')
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -41,11 +48,9 @@ class LayananResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('nama_layanan'),
-                TextColumn::make('estimasi_layanan'),
-                TextColumn::make('harga_layanan'),
-                TextColumn::make('deskripsi_layanan'),
-
+                Tables\Columns\TextColumn::make('name')->searchable(),
+                Tables\Columns\TextColumn::make('category')->searchable(),
+                Tables\Columns\TextColumn::make('price')->money('IDR')->sortable(),
             ])
             ->filters([
                 //
@@ -54,17 +59,8 @@ class LayananResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
