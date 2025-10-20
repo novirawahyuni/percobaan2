@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{-- Judul akan dinamis, dengan judul default jika tidak diatur --}}
-    <title>@yield('title', 'Bengkel Berkat Yakin - Perawatan dan Perbaikan Mobil')</title>
+    <title>@yield('title', 'Bengkel Berkat Yakin')</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,14 +17,17 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    {{-- SCRIPT PENTING UNTUK INTERAKTIVITAS DROPDOWN --}}
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <!-- Custom CSS & Konfigurasi Tailwind -->
     <style>
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f8fafc;
-            /* slate-50 */
         }
 
+        /* Animasi sederhana untuk elemen saat scroll */
         .animate-on-scroll {
             opacity: 0;
             transform: translateY(20px);
@@ -36,55 +38,45 @@
             opacity: 1;
             transform: translateY(0);
         }
-
-        .text-shadow-custom {
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-        }
     </style>
+    @stack('styles')
 </head>
 
 <body class="text-slate-800">
 
-    {{-- Memanggil bagian Header --}}
     @include('layouts.partials.header')
 
     <main>
-        {{-- Di sinilah konten unik dari setiap halaman akan ditampilkan --}}
         @yield('content')
     </main>
 
-    {{-- Memanggil bagian Footer --}}
     @include('layouts.partials.footer')
-
 
     <script>
         // Inisialisasi Lucide Icons
         lucide.createIcons();
 
-        // Script untuk Hamburger Menu (ada di dalam header, tapi diletakkan di sini agar aman)
+        // Script untuk Hamburger Menu
         const hamburgerButton = document.getElementById('hamburger-button');
         const mobileMenu = document.getElementById('mobile-menu');
 
-        if (hamburgerButton && mobileMenu) {
+        if (hamburgerButton) {
             hamburgerButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
             });
         }
 
-        // Script untuk animasi saat scroll
+        // Script untuk animasi saat scroll (jika masih digunakan)
         const scrollElements = document.querySelectorAll(".animate-on-scroll");
-
         const elementInView = (el, dividend = 1) => {
             const elementTop = el.getBoundingClientRect().top;
             return (
                 elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
             );
         };
-
         const displayScrollElement = (element) => {
             element.classList.add("is-visible");
         };
-
         const handleScrollAnimation = () => {
             scrollElements.forEach((el) => {
                 if (elementInView(el, 1.25)) {
@@ -92,16 +84,11 @@
                 }
             });
         }
-
-        window.addEventListener("scroll", () => {
-            handleScrollAnimation();
-        });
-
-        // Panggil sekali saat load untuk elemen yang sudah terlihat
-        document.addEventListener('DOMContentLoaded', () => {
-            handleScrollAnimation();
-        });
+        window.addEventListener("scroll", handleScrollAnimation);
+        handleScrollAnimation(); // Panggil saat load
     </script>
+    @stack('scripts')
+
 </body>
 
 </html>

@@ -30,7 +30,7 @@
                 {{-- ========================================== --}}
 
                 <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="{{ route('history') }}"
+                    <a href="{{ route('history.index') }}"
                         class="inline-block bg-slate-200 text-slate-800 font-semibold px-8 py-3 rounded-lg hover:bg-slate-300 transition-colors">
                         Cek Status Booking
                     </a>

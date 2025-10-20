@@ -41,7 +41,7 @@ Route::post('/booking', [BookingController::class, 'store'])->name('booking.stor
 Route::get('/booking/sukses', [BookingController::class, 'success'])->name('booking.success');
 
 // Rute untuk halaman riwayat booking
-Route::get('/history', [App\Http\Controllers\HistoryController::class, 'index'])->name('history');
+Route::get('/history', [App\Http\Controllers\HistoryController::class, 'index'])->name('history.index');
 Route::post('/history/check', [App\Http\Controllers\HistoryController::class, 'check'])->name('history.check');
 
 // Rute untuk cek booking tanpa login
