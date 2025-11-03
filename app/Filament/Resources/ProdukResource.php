@@ -22,15 +22,28 @@ class ProdukResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\TextInput::make('sku')
+                    ->label('Kode Produk')
+                    ->required()
+                    ->maxLength(1000),
+
                 Forms\Components\TextInput::make('name')
                     ->label('Nama Produk')
                     ->required()
                     ->maxLength(255),
+
+                Forms\Components\Textarea::make('description')
+                    ->label('Deskripsi')
+                    ->required()
+                    ->maxLength(1000),
+
+
                 Forms\Components\TextInput::make('price')
                     ->label('Harga')
                     ->required()
                     ->numeric()
                     ->prefix('Rp'),
+
                 Forms\Components\TextInput::make('stock')
                     ->label('Stok')
                     ->required()
@@ -43,8 +56,14 @@ class ProdukResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('sku')
+                    ->label('Kode Produk')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nama Produk')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('description')
+                    ->label('Deskripsi')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('price')
                     ->label('Harga')

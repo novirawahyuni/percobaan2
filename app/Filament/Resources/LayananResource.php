@@ -38,6 +38,10 @@ class LayananResource extends Resource
                     ->required()
                     ->numeric()
                     ->prefix('Rp'),
+                Forms\Components\TextInput::make('duration_minutes')
+                    ->label('Durasi (menit)')
+                    ->required()
+                    ->numeric(),
                 Forms\Components\Textarea::make('description')
                     ->label('Deskripsi')
                     ->columnSpanFull(),
@@ -47,10 +51,11 @@ class LayananResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
+            ->columns([ 
                 Tables\Columns\TextColumn::make('name')->searchable(),
                 Tables\Columns\TextColumn::make('category')->searchable(),
                 Tables\Columns\TextColumn::make('price')->money('IDR')->sortable(),
+                Tables\Columns\TextColumn::make('duration_minutes')->label('Durasi (menit)')->sortable(),
             ])
             ->filters([
                 //

@@ -6,18 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking Online - Bengkel Berkat Yakin</title>
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Google Fonts: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Custom CSS & Konfigurasi Tailwind -->
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -42,7 +38,6 @@
 
 <body class="text-slate-800">
 
-    <!-- HEADER / NAVBAR -->
     <header class="bg-white/80 backdrop-blur-sm shadow-md sticky top-0 z-50 transition-all duration-300">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
@@ -92,7 +87,6 @@
     </header>
 
     <main>
-        <!-- Page Header -->
         <section class="bg-slate-700 py-16 text-white text-center">
             <div class="container mx-auto px-4">
                 <h1 class="text-4xl font-bold">Booking Servis Online</h1>
@@ -101,11 +95,9 @@
             </div>
         </section>
 
-        <!-- Form Booking -->
         <section class="py-20">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
                 <div class="bg-white p-8 rounded-xl shadow-2xl">
-                    <!-- Step Indicators -->
                     <div class="flex justify-between items-start mb-8">
                         <div id="step-indicator-1" class="step-indicator text-center w-1/4">
                             <div
@@ -139,7 +131,6 @@
                     <form id="booking-form" action="{{ route('booking.store') }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
-                        <!-- Step 1: Layanan -->
                         <div id="form-step-1" class="form-step active">
                             <h3 class="text-2xl font-bold mb-6">Pilih layanan yang Anda butuhkan</h3>
                             @if ($errors->any())
@@ -157,10 +148,13 @@
                                         {{ $category }}</h4>
                                     <div class="grid sm:grid-cols-2 gap-4">
                                         @foreach ($services as $service)
+                                            {{-- MODIFIKASI: Tambahkan data-price, data-duration, dan class untuk JS --}}
                                             <label
-                                                class="flex items-center p-4 border border-slate-200 rounded-lg hover:bg-blue-50 cursor-pointer has-[:checked]:bg-blue-50 has-[:checked]:border-blue-500 transition-all">
+                                                class="service-option flex items-center p-4 border border-slate-200 rounded-lg hover:bg-blue-50 cursor-pointer has-[:checked]:bg-blue-50 has-[:checked]:border-blue-500 transition-all"
+                                                data-price="{{ $service->price }}"
+                                                data-duration="{{ $service->duration_minutes }}">
                                                 <input type="checkbox" name="services[]" value="{{ $service->id }}"
-                                                    class="h-5 w-5 text-blue-600 border-slate-300 rounded focus:ring-blue-500">
+                                                    class="service-checkbox h-5 w-5 text-blue-600 border-slate-300 rounded focus:ring-blue-500">
                                                 <span class="ml-3 text-slate-700">{{ $service->name }}</span>
                                             </label>
                                         @endforeach
@@ -171,7 +165,6 @@
                             @endforelse
                         </div>
 
-                        <!-- Step 2: Jadwal -->
                         <div id="form-step-2" class="form-step">
                             <h3 class="text-2xl font-bold mb-6">Pilih tanggal dan waktu</h3>
                             <div class="grid sm:grid-cols-2 gap-6">
@@ -196,7 +189,6 @@
                             </div>
                         </div>
 
-                        <!-- Step 3: Data Diri & Kendaraan -->
                         <div id="form-step-3" class="form-step">
                             <h3 class="text-2xl font-bold mb-6">Isi data diri & mobil Anda</h3>
                             <div class="grid sm:grid-cols-2 gap-6">
@@ -246,7 +238,6 @@
                             </div>
                         </div>
 
-                        <!-- Step 4: Konfirmasi -->
                         <div id="form-step-4" class="form-step">
                             <h3 class="text-2xl font-bold mb-6">Konfirmasi Booking Anda</h3>
                             <div class="bg-slate-50 p-6 rounded-lg space-y-3 border border-slate-200">
@@ -259,6 +250,13 @@
                                 <p><strong>Mobil:</strong> <span id="summary-car"
                                         class="font-normal text-slate-600"></span> (<span id="summary-plate"
                                         class="font-normal text-slate-600"></span>)</p>
+                                {{-- MODIFIKASI: Tambahkan elemen untuk menampilkan Estimasi --}}
+                                <div class="pt-3 mt-3 border-t border-slate-200">
+                                    <p><strong>Total Estimasi Biaya:</strong> <span id="summary-estimated-price"
+                                            class="font-normal text-lg font-bold text-blue-600"></span></p>
+                                    <p><strong>Total Estimasi Durasi:</strong> <span id="summary-estimated-duration"
+                                            class="font-normal text-slate-600"></span></p>
+                                </div>
                                 <div class="pt-3 mt-3 border-t border-slate-200">
                                     <p><strong>Metode Pembayaran:</strong> <span id="summary-payment"
                                             class="font-normal text-slate-600"></span></p>
@@ -334,7 +332,6 @@
                                 mengirimkan notifikasi konfirmasi ke nomor telepon Anda.</p>
                         </div>
 
-                        <!-- Tombol Navigasi -->
                         <div class="mt-8 pt-6 border-t border-slate-200 flex justify-between items-center">
                             <button type="button" id="prev-btn"
                                 class="bg-slate-200 text-slate-700 font-semibold px-6 py-2 rounded-lg hover:bg-slate-300 transition-colors disabled:opacity-50"
@@ -351,7 +348,6 @@
         </section>
     </main>
 
-    <!-- FOOTER -->
     <footer class="bg-slate-800 text-slate-300 pt-16 pb-8">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
@@ -407,6 +403,68 @@
                 mobileMenu.classList.toggle('hidden');
             });
 
+            // --- FUNGSI ESTIMASI BARU (Mengambil data dari HTML) ---
+            const formatCurrency = (amount) => {
+                return new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                    minimumFractionDigits: 0
+                }).format(amount);
+            };
+
+            const formatDuration = (minutes) => {
+                if (!minutes || minutes < 1) {
+                    return '0 Menit';
+                }
+                const hours = Math.floor(minutes / 60);
+                const remainingMinutes = minutes % 60;
+                let result = '';
+                if (hours > 0) {
+                    result += `${hours} Jam`;
+                }
+                if (remainingMinutes > 0) {
+                    if (hours > 0) result += ' ';
+                    result += `${remainingMinutes} Menit`;
+                }
+                return result.trim();
+            };
+
+            const calculateEstimation = () => {
+                // Ambil semua elemen checkbox layanan yang dicentang
+                const selectedCheckboxes = document.querySelectorAll('.service-checkbox:checked');
+
+                let totalDuration = 0;
+                let totalPrice = 0;
+
+                selectedCheckboxes.forEach(checkbox => {
+                    // Ambil elemen induk <label> yang menyimpan data price dan duration
+                    const label = checkbox.closest('.service-option');
+
+                    // Ambil nilai dari atribut data-price dan data-duration
+                    const price = parseFloat(label.dataset.price) || 0;
+                    const duration = parseInt(label.dataset.duration) || 0;
+
+                    totalPrice += price;
+                    totalDuration += duration;
+                });
+
+                return {
+                    totalDuration,
+                    totalPrice
+                };
+            };
+
+            const updateEstimationSummary = () => {
+                const estimation = calculateEstimation();
+
+                // Tampilkan hasil estimasi di Step 4
+                document.getElementById('summary-estimated-price').textContent = formatCurrency(estimation
+                    .totalPrice);
+                document.getElementById('summary-estimated-duration').textContent = formatDuration(estimation
+                    .totalDuration);
+            };
+            // --- AKHIR FUNGSI ESTIMASI BARU ---
+
             // --- 1. PENGAMBILAN ELEMEN FORM ---
             const prevBtn = document.getElementById('prev-btn');
             const nextBtn = document.getElementById('next-btn');
@@ -447,7 +505,7 @@
 
             const updateSummary = () => {
                 const selectedServices = Array.from(document.querySelectorAll(
-                        'input[name="services[]"]:checked')).map(cb => cb.nextElementSibling.textContent.trim())
+                        '.service-checkbox:checked')).map(cb => cb.nextElementSibling.textContent.trim())
                     .join(', ');
                 document.getElementById('summary-service').textContent = selectedServices || 'N/A';
 
@@ -467,6 +525,9 @@
                 document.getElementById('summary-plate').textContent = document.getElementById('nomor_polisi')
                     .value.toUpperCase();
 
+                // Panggil fungsi estimasi baru
+                updateEstimationSummary();
+
                 const paymentMethodRadio = document.querySelector('input[name="payment_method"]:checked');
                 let paymentSummaryText = 'N/A';
                 if (paymentMethodRadio) {
@@ -483,9 +544,19 @@
             // --- 3. EVENT LISTENERS ---
             nextBtn.addEventListener('click', () => {
                 if (currentStep < formSteps.length) {
+                    // Tambahkan validasi Step 1 (Minimal 1 layanan dipilih)
+                    if (currentStep === 1) {
+                        const selectedServices = document.querySelectorAll('.service-checkbox:checked')
+                            .length;
+                        if (selectedServices === 0) {
+                            alert('Anda harus memilih minimal satu layanan.');
+                            return; // Hentikan perpindahan step
+                        }
+                    }
+
                     currentStep++;
                     if (currentStep === formSteps.length) {
-                        updateSummary();
+                        updateSummary(); // Memuat data ringkasan dan Estimasi sebelum ke Step 4
                     }
                     updateFormSteps();
                 }
