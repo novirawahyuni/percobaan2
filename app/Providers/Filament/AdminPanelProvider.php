@@ -26,15 +26,15 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->login()->brandName('Bengkel Berkat Yakin')
             ->colors([
                 'primary' => Color::Amber,
             ])
 
-              ->navigationGroups([
-        'Booking',
-        'Layanan',
-    ])
+            ->navigationGroups([
+                'Booking',
+                'Layanan',
+            ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -59,9 +59,9 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
-            // Tambahkan baris ini untuk memproteksi panel
-            // ->canSee(function () {
-            //     return auth()->user()->can('access-filament-panel');
-            // });
+        // Tambahkan baris ini untuk memproteksi panel
+        // ->canSee(function () {
+        //     return auth()->user()->can('access-filament-panel');
+        // });
     }
 }
