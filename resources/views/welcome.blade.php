@@ -273,9 +273,7 @@
                 <div>
                     <h3 class="text-xl font-bold text-white mb-4">Jam Operasional</h3>
                     <ul class="space-y-2 text-slate-400">
-                        <li>Senin - Rabu: 08:00 - 17:00</li>
-                        <li>Kamis - Jumat: Tutup</li>
-                        <li>sabtu - Ahad: 09:00 - 17:00</li>
+
                     </ul>
                 </div>
             </div>
