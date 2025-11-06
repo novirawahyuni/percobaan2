@@ -28,8 +28,8 @@ class LayananResource extends Resource
                 Forms\Components\Select::make('category')
                     ->options([
                         'Perawatan Rutin' => 'Perawatan Rutin',
-                        'Mesin & Performa' => 'Mesin & Performa',
-                        'Kaki-kaki & Pengereman' => 'Kaki-kaki & Pengereman',
+                        'Penggantian Filter' => 'Penggantian Filter',
+                        'Tambahan Komponen' => 'Tambahan Komponen',
                         'Lainnya' => 'Lainnya',
                     ])
                     ->required(),
@@ -51,7 +51,7 @@ class LayananResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([ 
+            ->columns([
                 Tables\Columns\TextColumn::make('name')->searchable(),
                 Tables\Columns\TextColumn::make('category')->searchable(),
                 Tables\Columns\TextColumn::make('price')->money('IDR')->sortable(),

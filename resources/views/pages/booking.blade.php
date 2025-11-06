@@ -328,8 +328,7 @@
                                     </div>
                                 </div>
                             @endif
-                            <p class="mt-8 text-sm text-slate-500">Pastikan semua data sudah benar. Kami akan
-                                mengirimkan notifikasi konfirmasi ke nomor telepon Anda.</p>
+                            <p class="mt-8 text-sm text-slate-500">Pastikan semua data sudah benar. Anda akan melakukan pembayaran langsung di tempat saat servis selesai.</p>
                         </div>
 
                         <div class="mt-8 pt-6 border-t border-slate-200 flex justify-between items-center">

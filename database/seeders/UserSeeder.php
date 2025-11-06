@@ -23,16 +23,6 @@ class UserSeeder extends Seeder
         ]);
         $pemilik->assignRole('pemilik');
 
-        // Membuat user dan memberinya role 'karyawan'
-        // User ini juga dapat mengakses panel admin.
-        $karyawan = User::create([
-            'name' => 'Karyawan Bengkel',
-            'phone_number' => '081234567891',
-            'email' => 'karyawan@bengkel.com',
-            'password' => Hash::make('password'),
-        ]);
-        $karyawan->assignRole('karyawan');
-
         // Membuat user dan memberinya role 'pelanggan'
         // User ini TIDAK dapat mengakses panel admin.
         $pelanggan = User::create([

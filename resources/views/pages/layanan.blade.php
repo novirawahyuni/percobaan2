@@ -18,71 +18,63 @@
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="bg-white p-8 rounded-xl shadow-lg">
                         <i data-lucide="calendar-check-2" class="w-10 h-10 text-blue-600 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2">Servis Berkala</h3>
-                        <p class="text-slate-600">Perawatan rutin sesuai interval kilometer untuk menjaga garansi
-                            dan performa mobil.</p>
-                    </div>
-                    <div class="bg-white p-8 rounded-xl shadow-lg">
-                        <i data-lucide="droplets" class="w-10 h-10 text-blue-600 mb-4"></i>
                         <h3 class="text-xl font-bold mb-2">Ganti Oli Mesin</h3>
                         <p class="text-slate-600">Menggunakan oli berkualitas tinggi untuk memastikan mesin awet dan
                             bertenaga.</p>
                     </div>
                     <div class="bg-white p-8 rounded-xl shadow-lg">
+                        <i data-lucide="droplets" class="w-10 h-10 text-blue-600 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Ganti Oli Gardan</h3>
+                        <p class="text-slate-600">Proses mengeluarkan oli bekas dari gearbox kendaraan, lalu mengisinya kembali dengan oli gardan baru.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg">
                         <i data-lucide="battery-charging" class="w-10 h-10 text-blue-600 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2">Pengecekan Aki</h3>
-                        <p class="text-slate-600">Memeriksa dan memastikan sistem kelistrikan dan aki mobil Anda
-                            dalam kondisi prima.</p>
+                        <h3 class="text-xl font-bold mb-2">Ganti Oli Persneling</h3>
+                        <p class="text-slate-600">Penggantian Oli pelumas pada sistem transmisi kendaraan.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Kategori 2: Mesin & Performa -->
+            <!-- Kategori 2: Penggantian Filter -->
             <div class="mb-16">
-                <h2 class="text-3xl font-bold mb-8 text-center">Mesin & Performa</h2>
+                <h2 class="text-3xl font-bold mb-8 text-center">Penggantian Filter</h2>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="bg-white p-8 rounded-xl shadow-lg">
                         <i data-lucide="wrench" class="w-10 h-10 text-blue-600 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2">Tune Up</h3>
-                        <p class="text-slate-600">Mengembalikan performa mesin ke kondisi optimal, lebih responsif
-                            dan irit BBM.</p>
+                        <h3 class="text-xl font-bold mb-2">Filter Oli</h3>
+                        <p class="text-slate-600">Pelumasan mesin yang menyaring kotoran dan partikel logam dari oli sebelumnya.</p>
                     </div>
                     <div class="bg-white p-8 rounded-xl shadow-lg">
                         <i data-lucide="settings-2" class="w-10 h-10 text-blue-600 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2">Overhaul Mesin</h3>
-                        <p class="text-slate-600">Perbaikan besar untuk mengatasi masalah serius pada komponen
-                            internal mesin.</p>
+                        <h3 class="text-xl font-bold mb-2">Filter Solar</h3>
+                        <p class="text-slate-600">Mesin diesel yang menyaring kotoran dan air dari bahan bakar solar sebelum masuk ke ruang bakar.</p>
                     </div>
                     <div class="bg-white p-8 rounded-xl shadow-lg">
                         <i data-lucide="filter" class="w-10 h-10 text-blue-600 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2">Servis Sistem Injeksi</h3>
-                        <p class="text-slate-600">Membersihkan dan menyeimbangkan sistem injeksi untuk pembakaran
-                            sempurna.</p>
+                        <h3 class="text-xl font-bold mb-2">Filter Hawa/Udara</h3>
+                        <p class="text-slate-600">Menyaring udara dari kotoran, debu, dan partikel lain agar udara yang masuk ke ruang bakar mesin atau ruangan bersih.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Kategori 3: Kaki-kaki & Pengereman -->
+            <!-- Kategori 3: Komponen -->
             <div>
-                <h2 class="text-3xl font-bold mb-8 text-center">Kaki-kaki & Pengereman</h2>
+                <h2 class="text-3xl font-bold mb-8 text-center">Komponen</h2>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="bg-white p-8 rounded-xl shadow-lg">
                         <i data-lucide="disc-3" class="w-10 h-10 text-blue-600 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2">Spooring & Balancing</h3>
-                        <p class="text-slate-600">Meluruskan posisi roda dan menyeimbangkan putarannya untuk
-                            kenyamanan.</p>
+                        <h3 class="text-xl font-bold mb-2">Air Radiator</h3>
+                        <p class="text-slate-600">Menjaga suhu mesin kendaraan agar tetap stabil dan mencegah overheat.</p>
                     </div>
                     <div class="bg-white p-8 rounded-xl shadow-lg">
                         <i data-lucide="circle-dot" class="w-10 h-10 text-blue-600 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2">Servis Rem</h3>
-                        <p class="text-slate-600">Pengecekan dan penggantian kampas rem untuk menjamin keamanan
-                            berkendara.</p>
+                        <h3 class="text-xl font-bold mb-2">Gomok</h3>
+                        <p class="text-slate-600">Pelumas berbentuk semi-padat yang terbuat dari campuran minyak dan zat pengental.</p>
                     </div>
                     <div class="bg-white p-8 rounded-xl shadow-lg">
                         <i data-lucide="move-vertical" class="w-10 h-10 text-blue-600 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2">Perbaikan Suspensi</h3>
-                        <p class="text-slate-600">Mengatasi masalah pada shock absorber dan komponen suspensi
-                            lainnya.</p>
+                        <h3 class="text-xl font-bold mb-2">Air Aki Lunak dan Keras</h3>
+                        <p class="text-slate-600">elektrolit asam sulfat murni untuk pengisian pertama aki dan yang telah disuling menambah volume cairan aki yang sudah elektrolit.</p>
                     </div>
                 </div>
             </div>

@@ -20,25 +20,18 @@ class LayananSeeder extends Seeder
             'description' => 'Penggantian oli mesin sesuai standar pabrikan.'
         ]);
         Layanan::create([
-            'name' => 'Tune Up Lengkap',
-            'category' => 'Mesin & Performa',
+            'name' => 'Filter Oli',
+            'category' => 'Penggantian Filter',
             'price' => 450000,
             'duration_minutes' => 60,
-            'description' => 'Pembersihan ruang bakar, throttle body, dan pengecekan komponen mesin.'
+            'description' => 'Komponen penting yang menyaring kotoran untuk menjaga oli tetap bersih.'
         ]);
         Layanan::create([
-            'name' => 'Servis Rem',
-            'category' => 'Kaki-kaki & Pengereman',
+            'name' => 'Air Radiator',
+            'category' => 'Tambahan Komponen',
             'price' => 200000,
             'duration_minutes' => 45,
-            'description' => 'Pengecekan dan pembersihan sistem pengereman.'
-        ]);
-        Layanan::create([
-            'name' => 'Spooring & Balancing',
-            'category' => 'Kaki-kaki & Pengereman',
-            'price' => 250000,
-            'duration_minutes' => 50,
-            'description' => 'Penyesuaian sudut roda dan balancing ban.'
+            'description' => 'cairan khusus untuk pendingin mesin mencegah overheat fengan menyerap panas dan mengalirkan ke luar.'
         ]);
     }
 }

@@ -21,65 +21,35 @@
                                 class="w-6 h-6 mr-4 mt-1 text-blue-600 flex-shrink-0"></i>
                             <div>
                                 <h3 class="font-semibold">Alamat</h3>
-                                <p class="text-slate-600">Jl. Otomotif Raya No. 123, Jakarta, Indonesia</p>
+                                   <p class="text-slate-600">Jl. Professor Moh. Yamin SH Bangkinang - Riau</p>
                             </div>
                         </div>
                         <div class="flex items-start"><i data-lucide="phone"
                                 class="w-6 h-6 mr-4 mt-1 text-blue-600 flex-shrink-0"></i>
                             <div>
                                 <h3 class="font-semibold">Telepon</h3>
-                                <p class="text-slate-600">(021) 1234 5678</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start"><i data-lucide="mail"
-                                class="w-6 h-6 mr-4 mt-1 text-blue-600 flex-shrink-0"></i>
-                            <div>
-                                <h3 class="font-semibold">Email</h3>
-                                <p class="text-slate-600">halo@bengkelpro.com</p>
+                                <p class="text-slate-600">(+62) 0821 - 7259 - 1419</p>
                             </div>
                         </div>
                         <div class="flex items-start"><i data-lucide="clock"
                                 class="w-6 h-6 mr-4 mt-1 text-blue-600 flex-shrink-0"></i>
                             <div>
                                 <h3 class="font-semibold">Jam Operasional</h3>
-                                <p class="text-slate-600">Senin - Sabtu: 08:00 - 17:00</p>
+                                <p class="text-slate-600">Senin - Rabu: 09:00 - 17:00</p>
+                                <p class="text-slate-600">Kamis - Jumat: Tutup</p>
+                                <p class="text-slate-600">Sabtu - Ahad: 09:00 - 17:00</p>
                             </div>
                         </div>
                     </div>
-                    <div class="mt-8 pt-6 border-t border-slate-200">
-                        <h3 class="font-semibold mb-4">Temukan Kami di Peta</h3>
+                </div>
+                <!-- Temukan Peta -->
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h2 class="text-2xl font-bold mb-6">Temukan Kami dipeta</h2>
                         <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden">
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322283!2d106.81958031476882!3d-6.194420395514693!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f424b2e2d939%3A0x8a91a9228f346fa6!2sMonumen%20Nasional!5e0!3m2!1sid!2sid!4v1672543210987!5m2!1sid!2sid"
-                                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade" class="w-full h-full"></iframe>
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d510687.7014472241!2d100.4373405734375!3d0.3409780000000165!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d515baa45af975%3A0x5dad8c1c6a2f4f19!2sBerkat%20Yakin%20Service%20Ganti%20Oli!5e0!3m2!1sid!2sid!4v1762408471884!5m2!1sid!2sid" width="600" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                         </div>
-                    </div>
-                </div>
-                <!-- Formulir Kontak -->
-                <div class="bg-white p-8 rounded-xl shadow-lg">
-                    <h2 class="text-2xl font-bold mb-6">Kirim Pesan</h2>
-                    <form action="#" method="POST" class="space-y-6">
-                        <div><label for="name" class="block text-sm font-medium text-slate-700">Nama
-                                Lengkap</label><input type="text" name="name" id="name" required
-                                class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                        <div><label for="email" class="block text-sm font-medium text-slate-700">Alamat
-                                Email</label><input type="email" name="email" id="email" required
-                                class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                        <div><label for="subject" class="block text-sm font-medium text-slate-700">Subjek</label><input
-                                type="text" name="subject" id="subject" required
-                                class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                        <div><label for="message" class="block text-sm font-medium text-slate-700">Pesan Anda</label>
-                            <textarea id="message" name="message" rows="4" required
-                                class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea>
-                        </div>
-                        <div><button type="submit"
-                                class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">Kirim
-                                Pesan</button></div>
-                    </form>
+                    </iframe>
                 </div>
             </div>
         </div>

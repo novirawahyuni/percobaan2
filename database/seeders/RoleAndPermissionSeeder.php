@@ -18,7 +18,6 @@ class RoleAndPermissionSeeder extends Seeder
 
         // Buat Roles
         Role::create(['name' => 'pemilik', 'guard_name' => 'web']);
-        Role::create(['name' => 'karyawan', 'guard_name' => 'web']);
         Role::create(['name' => 'pelanggan', 'guard_name' => 'web']);
     }
 }
